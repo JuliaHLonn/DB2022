@@ -3,12 +3,72 @@
  */
 package se.iths;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static se.iths.Constants.*;
+import static se.iths.Constants.SQL_COL_ALBUM_TITLE;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+
+    // TODO: För att snygga till utskriften sen, justera i Artist toString metod
+    public static void main(String[] args) {
+        App app = new App();
+        try {
+            app.load();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    private void load() throws SQLException {
+        Collection<Artist> artists = loadArtists();
+        for(Artist artist: artists){
+            System.out.println(artist);
+            Collection<Album> albums = loadAlbums(artist.getId());
+            for (Album album:albums){
+                System.out.println(album);
+            }
+        }
+    }
+
+    private Collection<Artist> loadArtists() throws SQLException {
+        Collection<Artist> artists = new ArrayList<>();
+        Connection con = DriverManager.getConnection(JDBC_CONNECTION, JDBC_USER, JDBC_PASSWORD);
+        ResultSet rs = con.createStatement().executeQuery(SQL_SELECT_ALL_ARTISTS);
+        long oldId = -1;
+        Artist artist = null;
+        while (rs.next()) {
+            long artistId = rs.getLong(SQL_COL_ARTIST_ID);
+            String name = rs.getString(SQL_COL_ARTIST_NAME);
+
+            if (artistId != oldId) {
+                artist = new Artist(artistId, name);
+                artists.add(artist);
+                oldId = artistId;
+            }
+
+        }
+        rs.close();
+        con.close();
+        return artists;
+    }
+
+    private Collection<Album> loadAlbums(long artistId) throws SQLException {
+        Collection<Album> albums = new ArrayList<>();
+        Connection con = DriverManager.getConnection(JDBC_CONNECTION, JDBC_USER, JDBC_PASSWORD);
+        PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALBUMS_BY_ARTISTID);
+        stmt.setLong(1, artistId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            long albumId = rs.getLong(SQL_COL_ALBUM_ID);
+            String title = rs.getString(SQL_COL_ALBUM_TITLE);
+            Album album = new Album(albumId, title);
+            albums.add(album);
+        }
+        rs.close();
+        con.close();
+        return albums;
     }
 }
