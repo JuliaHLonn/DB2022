@@ -8,7 +8,14 @@ Mermaid är ett verktyg för att rita diagram i Markdown. Istället för exemple
 ## Entity Relationship Diagram
 
 ## Klona
-git clone https://github.com/JuliaHLonn/DB2022.git
+> git clone https://github.com/JuliaHLonn/DB2022.git
+> cd DB2022
 
 ## Normalisera databas
 > docker exec -i iths-mysql mysql -uiths -piths < normalisering.sql
+
+## Kör Java koden
+> docker exec -i iths-mysql mysql -uiths -piths < db.sql
+> docker exec -i iths-mysql mysql -uroot -proot <<< "GRANT ALL ON Chinook.* TO 'iths'@'%'"
+> idea.cmd .
+> Projektet öppnas nu i intellij där du kan köra applikationen
