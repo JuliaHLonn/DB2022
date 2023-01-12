@@ -6,11 +6,17 @@ package se.iths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
+import java.util.Scanner;
 
 import static se.iths.Constants.*;
 import static se.iths.Constants.SQL_COL_ALBUM_TITLE;
 
 public class App {
+
+    public static Connection con = null;
+    public static Scanner sc = new Scanner(System.in);
+
 
     // TODO: För att snygga till utskriften sen, justera i Artist toString metod
     public static void main(String[] args) {
@@ -23,19 +29,89 @@ public class App {
     }
 
     private void load() throws SQLException {
+        con = DriverManager.getConnection(JDBC_CONNECTION, JDBC_USER, JDBC_PASSWORD);
+        System.out.println("""
+                What do you want to do?
+                1. Add Artist
+                2. Read Artists and Albums
+                3. Update Artist
+                4. Delete Artist
+                5. Exit
+                """);
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                System.out.println("What's the name of the Artist?");
+                String name = sc.nextLine();
+                addArtist(name);
+                break;
+            case 2:
+                showArtistsWithAlbums();
+                break;
+            case 3:
+                System.out.println("What artist do you want to change? ");
+                String oldName = sc.nextLine();
+                System.out.println("What's the new name? ");
+                String newName = sc.nextLine();
+                updateArtist(oldName, newName);
+                break;
+            case 4:
+                System.out.println("Which Artist do you want to delete?");
+                String artist = sc.nextLine();
+                deleteArtist(artist);
+                break;
+            case 5:
+                exit();
+        }
+    }
+
+    // CREATE
+    private void addArtist(String name) throws SQLException {
+        Random random = new Random();
+        int id = random.nextInt(256,1000);
+       PreparedStatement stmt = con.prepareStatement("insert into Artist(Name, ArtistId) values (?,?)");
+        stmt.setString(1, name);
+        stmt.setLong(2, id);
+        stmt.execute();
+        areYouFinished();
+    }
+
+
+
+    //READ
+    private void showArtistsWithAlbums() throws SQLException {
         Collection<Artist> artists = loadArtists();
-        for(Artist artist: artists){
+        for (Artist artist : artists) {
             System.out.println(artist);
-            Collection<Album> albums = loadAlbums(artist.getId());
-            for (Album album:albums){
+            Collection<Album> albums = loadAlbums(artist.getArtistId());
+            for (Album album : albums) {
                 System.out.println(album);
             }
         }
+        areYouFinished();
+    }
+
+    //UPDATE
+    private void updateArtist(String oldName, String newName) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("Update Artist set Name = ? where Name = ?");
+        stmt.setString(1, newName);
+        stmt.setString(2, oldName);
+        stmt.execute();
+        areYouFinished();
+
+    }
+
+    //DELETE
+    private void deleteArtist(String name) throws SQLException {
+        PreparedStatement stmt = con.prepareStatement("Delete from Artist where Name = ?");
+        stmt.setString(1, name);
+        stmt.execute();
+        areYouFinished();
     }
 
     private Collection<Artist> loadArtists() throws SQLException {
         Collection<Artist> artists = new ArrayList<>();
-        Connection con = DriverManager.getConnection(JDBC_CONNECTION, JDBC_USER, JDBC_PASSWORD);
         ResultSet rs = con.createStatement().executeQuery(SQL_SELECT_ALL_ARTISTS);
         long oldId = -1;
         Artist artist = null;
@@ -51,13 +127,11 @@ public class App {
 
         }
         rs.close();
-        con.close();
         return artists;
     }
 
     private Collection<Album> loadAlbums(long artistId) throws SQLException {
         Collection<Album> albums = new ArrayList<>();
-        Connection con = DriverManager.getConnection(JDBC_CONNECTION, JDBC_USER, JDBC_PASSWORD);
         PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALBUMS_BY_ARTISTID);
         stmt.setLong(1, artistId);
         ResultSet rs = stmt.executeQuery();
@@ -68,7 +142,24 @@ public class App {
             albums.add(album);
         }
         rs.close();
-        con.close();
         return albums;
     }
+
+    private void areYouFinished() throws SQLException {
+        System.out.println("For exit press 1 for menu press 2 ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice){
+            case 1: exit();
+                break;
+            case 2: load();
+                break;
+        }
+    }
+    private void exit() throws SQLException{
+        con.close();
+        System.exit(0);
+    }
+
+
 }

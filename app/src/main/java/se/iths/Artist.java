@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Artist {
-    private final long id;
-    private String name;
+    private final long ArtistId;
+    private String Name;
     private Collection<Album> albums = new ArrayList<>();
 
     public Artist(long id, String name){
-        this.id = id;
-        this.name = name;
+        this.ArtistId = id;
+        this.Name = name;
     }
 
-    public long getId() {
-        return id;
+    public long getArtistId() {
+        return ArtistId;
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public void add(Album album){
@@ -30,9 +30,9 @@ public class Artist {
     }
 
     public String toString(){
-        StringBuilder builder = new StringBuilder(String.valueOf(id));
+        StringBuilder builder = new StringBuilder(String.valueOf(ArtistId));
         builder.append(": ");
-        builder.append(name);
+        builder.append(Name);
         builder.append("\nAlbums:\n");
         for(Album album : albums){
             builder.append("\t");
