@@ -17,8 +17,6 @@ public class App {
     public static Connection con = null;
     public static Scanner sc = new Scanner(System.in);
 
-
-    // TODO: För att snygga till utskriften sen, justera i Artist toString metod
     public static void main(String[] args) {
         App app = new App();
         try {

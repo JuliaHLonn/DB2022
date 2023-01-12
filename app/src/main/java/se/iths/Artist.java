@@ -30,15 +30,6 @@ public class Artist {
     }
 
     public String toString(){
-        StringBuilder builder = new StringBuilder(String.valueOf(ArtistId));
-        builder.append(": ");
-        builder.append(Name);
-        builder.append("\nAlbums:\n");
-        for(Album album : albums){
-            builder.append("\t");
-            builder.append(album);
-            builder.append("\n");
-        }
-        return builder.toString();
+        return "Artist: " + ArtistId + " " + Name + " - ";
     }
 }

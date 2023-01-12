@@ -1,27 +1,27 @@
 package se.iths;
 
 public class Album {
-    private final long id;
-    private String title;
+    private final long AlbumId;
+    private String Title;
 
     public Album(long id, String title){
-        this.id = id;
-        this.title = title;
+        this.AlbumId = id;
+        this.Title = title;
     }
 
-    public long getId() {
-        return id;
+    public long getAlbumId() {
+        return AlbumId;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
     public String toString() {
-        return String.format("%d %s", id, title);
+        return "Album: " + AlbumId + " " + Title;
     }
 }
