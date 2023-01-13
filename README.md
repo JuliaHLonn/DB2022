@@ -11,7 +11,6 @@ Den normaliserade UNF tabellen
 ---
 ```mermaid
 erDiagram
-Student || --o{ Phone
 Student {
 int StudentId
 String FirstName
@@ -24,13 +23,10 @@ int StudentId
 int PhoneTypeId
 varchar Number
 }
-PhoneType || --o{ Phone
 PhoneType {
 int PhoneTypeId
 varchar Type
 }
-School || --o{ StudentSchool
-Student || --o{ StudentSchool
 School {
 int SchoolId
 varchar Name
@@ -40,13 +36,10 @@ StudentSchool {
 int StudentId
 int SchoolId
 }
-Grade |o --|{ Student
 Grade {
 int GradeId
 varchar Name
 }
-Hobbies || --o{ StudentHobbies
-Student || --o{ StudentHobbies
 Hobbies {
 int HobbyId
 varchar Name
@@ -55,6 +48,13 @@ StudentHobbies {
 int HobbyId
 int StudentId
 }
+Student || --o{ Phone
+PhoneType || --o{ Phone
+School || --o{ StudentSchool
+Student || --o{ StudentSchool
+Grade |o --|{ Student
+Hobbies || --o{ StudentHobbies
+Student || --o{ StudentHobbies
 ```
 ## Klona
 > git clone https://github.com/JuliaHLonn/DB2022.git
