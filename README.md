@@ -48,13 +48,13 @@ StudentHobbies {
 int HobbyId
 int StudentId
 }
-Student || --o{ Phone
-PhoneType || --o{ Phone
-School || --o{ StudentSchool
-Student || --o{ StudentSchool
-Grade |o --|{ Student
-Hobbies || --o{ StudentHobbies
-Student || --o{ StudentHobbies
+Student || --o{ Phone : has
+PhoneType || --o{ Phone : has
+School || --o{ StudentSchool : has
+Student || --o{ StudentSchool : enrolls
+Grade |o --|{ Student : has
+Hobbies || --o{ StudentHobbies : engages
+Student || --o{ StudentHobbies : has
 ```
 ## Klona
 > git clone https://github.com/JuliaHLonn/DB2022.git
