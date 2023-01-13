@@ -9,6 +9,7 @@ Mermaid är ett verktyg för att rita diagram i Markdown. Istället för exemple
 Över den normaliserade UNF tabellen
   
 erDiagram
+
 Student {
 int StudentId
 String FirstName
