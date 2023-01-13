@@ -8,7 +8,8 @@ Mermaid är ett verktyg för att rita diagram i Markdown. Istället för exemple
 ## Entity Relationship Diagram
 ---
 Över den normaliserade UNF tabellen
----  
+---
+ ``` mermaid
 erDiagram
 
 Student {
@@ -66,7 +67,7 @@ int StudentId
 
 Hobbies || --o{ StudentHobbies
 Student || --o{ StudentHobbies
-
+```
 ## Klona
 > git clone https://github.com/JuliaHLonn/DB2022.git
 >
