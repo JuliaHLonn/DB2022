@@ -11,7 +11,6 @@ Den normaliserade UNF tabellen
 ---
 ```mermaid
 erDiagram
-
 Student {
 int StudentId
 String FirstName
