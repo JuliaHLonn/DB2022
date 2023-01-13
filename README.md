@@ -18,20 +18,17 @@ String FirstName
 String LastName
 int GradeId
 }
-
 Phone {
 int PhoneId
 int StudentId
 int PhoneTypeId
 varchar Number
 }
-
 PhoneType || --o{ Phone
 PhoneType {
 int PhoneTypeId
 varchar Type
 }
-
 School || --o{ StudentSchool
 Student || --o{ StudentSchool
 School {
@@ -39,7 +36,6 @@ int SchoolId
 varchar Name
 varchar City
 }
-
 StudentSchool {
 int StudentId
 int SchoolId
@@ -49,14 +45,12 @@ Grade {
 int GradeId
 varchar Name
 }
-
 Hobbies || --o{ StudentHobbies
 Student || --o{ StudentHobbies
 Hobbies {
 int HobbyId
 varchar Name
 }
-
 StudentHobbies {
 int HobbyId
 int StudentId
