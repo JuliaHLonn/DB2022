@@ -7,9 +7,9 @@ Mermaid är ett verktyg för att rita diagram i Markdown. Istället för exemple
 
 ## Entity Relationship Diagram
 ---
-Över den normaliserade UNF tabellen
+Den normaliserade UNF tabellen
 ---
- ``` mermaid
+```mermaid
 erDiagram
 
 Student {
