@@ -107,14 +107,14 @@ Select distinct Hobby from (
   Where HOBBIES != ""
 ) as Hobbies2;
 
-Drop table if exists Hobby;
-Create table Hobby (
+Drop table if exists StudentHobbies;
+Create table StudentHobbies (
 	StudentId int not null,
 	HobbyId int not null,
 	Primary key(StudentId, HobbyId)
 )ENGINE=INNODB;
 
-Insert into Hobby(StudentId, HobbyId)
+Insert into StudentHobbies(StudentId, HobbyId)
 Select distinct StudentId, HobbyId from (
   select Id as StudentId, trim(SUBSTRING_INDEX(Hobbies, ",", 1)) as Hobby from UNF
   Where HOBBIES != ""
@@ -124,7 +124,7 @@ Select distinct StudentId, HobbyId from (
 ) as Hobbies2 inner join Hobbies on Hobbies2.Hobby = Hobbies.Name;
 
 Drop view if exists HobbiesList;
-Create view HobbiesList as select StudentId, group_concat(Name) as Hobbies from Hobby join Hobbies Using (HobbyId) group by StudentId;
+Create view HobbiesList as select StudentId, group_concat(Name) as Hobbies from StudentHobbies join Hobbies Using (HobbyId) group by StudentId;
 
 Drop table if exists Grade;
 Create table Grade(
