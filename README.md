@@ -50,8 +50,8 @@ int StudentId
 }
 Student || --o{ Phone : has
 PhoneType || --o{ Phone : has
-School || --o{ StudentSchool : has
-Student || --o{ StudentSchool : enrolls
+School || --o{ StudentSchool : enrolls
+Student || --o{ StudentSchool : attends
 Grade |o --|{ Student : has
 Hobbies || --o{ StudentHobbies : engages
 Student || --o{ StudentHobbies : has
